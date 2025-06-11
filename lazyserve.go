@@ -3,6 +3,7 @@ package lazyserve
 import (
 	"context"
 	"errors"
+	"log"
 	"net/http"
 	"time"
 )
@@ -38,6 +39,8 @@ func New(ctx context.Context, next http.Handler, config *Config, name string) (h
 		return nil, errors.New("retryDelay must be > 0")
 	}
 
+	log.Printf("[lazyserve] Initializing middleware '%s' with maxRetries=%d and retryDelay=%s", name, config.MaxRetries, config.RetryDelay)
+
 	return &LazyServe{
 		next:       next,
 		name:       name,
@@ -57,13 +60,21 @@ func (m *LazyServe) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
 
 		// If the response is successful (not a 5xx), forward it
 		if recorder.statusCode < 500 && recorder.statusCode != 0 {
+			log.Printf("[lazyserve] Request %s %s succeeded on attempt %d with status %d",
+				req.Method, req.URL.Path, attempt, recorder.statusCode)
 			recorder.WriteToOriginal(rw)
 			return
 		}
 
+		log.Printf("[lazyserve] Attempt %d failed for request %s %s (status: %d), retrying in %s...",
+			attempt, req.Method, req.URL.Path, recorder.statusCode, m.retryDelay)
+
 		// Wait before retrying
 		time.Sleep(m.retryDelay)
 	}
+
+	log.Printf("[lazyserve] All %d attempts failed for request %s %s. Responding with last received status: %d",
+		m.maxRetries, req.Method, req.URL.Path, recorder.statusCode)
 
 	// After all retries, write the last response
 	recorder.WriteToOriginal(rw)
