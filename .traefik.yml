@@ -1,13 +1,20 @@
-# .traefik.yml
-name: "lazyserve"
-displayName: "LazyServe"
-description: "A middleware plugin for retrying failed requests with delay."
-type: "middleware"
-category: "utility"
-testData: 
-  request:
-    method: GET
-    path: /
-  response:
-    statusCode: 503
-    body: "Service Unavailable"
+# A plugin neve, ahogy a Traefik Plugin Catalog felületén megjelenik
+displayName: LazyServe
+
+# A plugin típusa (jelenleg csak "middleware" támogatott)
+type: middleware
+
+# A plugin import útvonala (a go.mod alapján)
+import: github.com/Evocelot/traefik-lazy-serve
+
+# Rövid leírás arról, mit csinál a plugin
+summary: Middleware that retries requests to a backend service when it is temporarily unavailable, allowing time for scale-from-zero or delayed service startup.
+
+# Opcionális média fájlok (ikon, banner) – jelenleg kihagyva
+# iconPath: assets/icon.png
+# bannerPath: assets/banner.png
+
+# Konfigurációs minta, amit a Plugins Catalog használ a plugin betöltésének és futtathatóságának ellenőrzéséhez
+testData:
+  maxRetries: 2
+  retryDelay: 1s
