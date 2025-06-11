@@ -1,0 +1,13 @@
+# .traefik.yml
+name: "lazyserve"
+displayName: "LazyServe"
+description: "A middleware plugin for retrying failed requests with delay."
+type: "middleware"
+category: "utility"
+testData: 
+  request:
+    method: GET
+    path: /
+  response:
+    statusCode: 503
+    body: "Service Unavailable"
