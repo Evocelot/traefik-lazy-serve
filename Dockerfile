@@ -1,3 +1,3 @@
 FROM traefik:v3.2
 
-COPY plugin /plugins-local
+COPY ./ /plugins-local/src/github.com/Evocelot/traefik_lazy_serve

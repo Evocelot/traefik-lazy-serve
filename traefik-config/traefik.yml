@@ -15,7 +15,7 @@ providers:
 experimental:
   localPlugins:
     lazyserve:
-      moduleName: lazyserve
+      moduleName: github.com/Evocelot/traefik_lazy_serve
 
 log:
   level: INFO

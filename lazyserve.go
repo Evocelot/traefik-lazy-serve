@@ -1,4 +1,4 @@
-package lazyserve
+package traefik_lazy_serve
 
 import (
 	"context"
