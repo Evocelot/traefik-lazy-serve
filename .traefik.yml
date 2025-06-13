@@ -1,6 +1,6 @@
 displayName: LazyServe
 type: middleware
-import: github.com/Evocelot/traefik_lazy_serve
+import: github.com/Evocelot/traefik-lazy-serve
 summary: Middleware that retries requests to a backend service when it is temporarily unavailable, allowing time for scale-from-zero or delayed service startup.
 
 testData:

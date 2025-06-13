@@ -1,3 +1,3 @@
-module github.com/Evocelot/traefik_lazy_serve
+module github.com/Evocelot/traefik-lazy-serve
 
 go 1.20
