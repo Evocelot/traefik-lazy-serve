@@ -1,0 +1,21 @@
+api:
+  dashboard: true
+  insecure: true
+
+entryPoints:
+  http:
+    address: ":8003"
+    forwardedHeaders:
+      insecure: true
+
+providers:
+  file:
+    directory: /etc/traefik
+
+experimental:
+  localPlugins:
+    lazyserve:
+      moduleName: lazyserve
+
+log:
+  level: INFO

@@ -5,6 +5,7 @@ import (
 	"errors"
 	"log"
 	"net/http"
+	"os"
 	"time"
 )
 
@@ -18,7 +19,7 @@ type Config struct {
 func CreateConfig() *Config {
 	return &Config{
 		MaxRetries: 3,
-		RetryDelay: 2 * time.Second,
+		RetryDelay: 2000,
 	}
 }
 
@@ -39,13 +40,17 @@ func New(ctx context.Context, next http.Handler, config *Config, name string) (h
 		return nil, errors.New("retryDelay must be > 0")
 	}
 
-	log.Printf("[lazyserve] Initializing middleware '%s' with maxRetries=%d and retryDelay=%s", name, config.MaxRetries, config.RetryDelay)
+	retryDuration := time.Duration(config.RetryDelay) * time.Millisecond
+
+	log.SetOutput(os.Stdout)
+
+	log.Printf("[lazyserve] Initializing middleware '%s' with maxRetries=%d and retryDelay=%s", name, config.MaxRetries, retryDuration)
 
 	return &LazyServe{
 		next:       next,
 		name:       name,
 		maxRetries: config.MaxRetries,
-		retryDelay: config.RetryDelay,
+		retryDelay: retryDuration,
 	}, nil
 }
 

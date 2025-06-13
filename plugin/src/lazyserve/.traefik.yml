@@ -1,0 +1,13 @@
+displayName: LazyServe
+type: middleware
+import: lazyserve
+summary: Middleware that retries requests to a backend service when it is temporarily unavailable, allowing time for scale-from-zero or delayed service startup.
+description: |
+  LazyServe is a Traefik middleware plugin that introduces retry logic
+  for upstream service requests. It is especially useful in serverless
+  or scale-to-zero scenarios, where the backend may not be immediately
+  available. This middleware retries the request with a specified delay
+  and number of attempts before giving up.
+testData:
+  maxRetries: 2
+  retryDelay: 1000 #1s
