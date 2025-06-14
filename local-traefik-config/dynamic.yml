@@ -1,0 +1,24 @@
+http:
+  routers:
+    hello-app-router:
+      rule: PathPrefix(`/`)
+      middlewares:
+        - lazyserve
+      service: hello-app-service
+  
+  middlewares:
+    lazyserve:
+      plugin:
+        lazyserve:
+          maxRetries: 15 # Maximum number of retry attempts if the target service is unavailable
+          retryDelay: 1000 # Delay (in milliseconds) between each retry attempt
+          retryStatusCodes: # List of HTTP status codes that should trigger a retry
+            - 502
+            - 503
+            - 504
+
+  services:
+    hello-app-service:
+      loadBalancer:
+        servers:
+          - url: http://hello-app:5678

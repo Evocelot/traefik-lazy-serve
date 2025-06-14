@@ -1,12 +1,6 @@
-api:
-  dashboard: true
-  insecure: true
-
 entryPoints:
   http:
-    address: ":8003"
-    forwardedHeaders:
-      insecure: true
+    address: ":8000"
 
 providers:
   file:
@@ -14,6 +8,7 @@ providers:
 
 experimental:
   localPlugins:
+    # This enables the 'lazyserve' plugin as a local plugin
     lazyserve:
       moduleName: github.com/Evocelot/traefik-lazy-serve
 

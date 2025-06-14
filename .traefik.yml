@@ -1,8 +1,14 @@
 displayName: LazyServe
 type: middleware
+iconPath: icon/icon.png
+
 import: github.com/Evocelot/traefik-lazy-serve
-summary: Middleware that retries requests to a backend service when it is temporarily unavailable, allowing time for scale-from-zero or delayed service startup.
+summary: Middleware that retries requests to a service when it is temporarily unavailable, allowing time for scale-from-zero or delayed service startup.
 
 testData:
-  maxRetries: 2
-  retryDelay: 1000 #1s
+  maxRetries: 5 # Maximum number of retry attempts if the target service is unavailable
+  retryDelay: 1000 # Delay (in milliseconds) between each retry attempt
+  retryStatusCodes: # List of HTTP status codes that should trigger a retry
+    - 502
+    - 503
+    - 504
